@@ -17,7 +17,7 @@ NEWSPIDER_MODULE = 'martindale.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
-
+FEED_EXPORT_FIELDS =['url','name','people1','people2','people3','first_name','year_established','size','practises','phone1','phone2','website','county','postal_code','town','stars','number_of_stars','recommendation_number','recommendation_percentage']
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 

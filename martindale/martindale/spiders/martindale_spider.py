@@ -23,6 +23,15 @@ class QuotesSpider(scrapy.Spider):
         #     yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        Established=""
+        try:
+            exp_classes=response.css("div.experience-section")
+        except:
+            exp_classes=[]
+        for exp in exp_classes:
+            lbl=exp.css("div.experience-label::text").extract_first()
+            if "Established" in lbl:
+                Established=exp.css("div.experience-value::text").extract_first()
         data_found=re.search('d\+json">.+} <', response.body.strip().replace("\n",""))
         json_data=(str(data_found.group(0)).replace('d+json"> ',''))
         End=json_data.find("</script>")
@@ -47,7 +56,7 @@ class QuotesSpider(scrapy.Spider):
             l.add_value('first_name', json_data["employee"][0]["name"].split(" ")[0])
         except:
             l.add_value('first_name', "")
-        l.add_value('year_established', "")
+        l.add_value('year_established', Established)
         try:
             l.add_value('size', len(json_data["employee"]))
         except:
@@ -92,7 +101,7 @@ class QuotesSpider(scrapy.Spider):
         monString = json.dumps(obj)
         json_data = json.loads(monString)
         for d in json_data["sitemapindex"]["sitemap"]:
-            if "firm_usa_new-york" in d["loc"]:
+            if "firm_usa" in d["loc"]:
                 yield scrapy.Request(url=d["loc"], callback=self.parse_second_xml)
 
 
